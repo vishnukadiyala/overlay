@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <style>
+  html, body {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
+    margin: 0;
+    padding: 0;
+
+    background-color: rgba(0, 0, 0, 0);
+
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+
+  .onair-renderer.sub-composition {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #onairLive {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+  }
+
+  .red5-preview-player .red5pro-media-container  { 
+    width: 100%;
+    height: 100%
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.26/webfontloader.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js"></script>
+  
+  <script src="/libs/singularplayer/0.1.2/singularplayer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+  <script src="/libs/singularanalytics/1.0.0/singular-analytics.js"></script>
+</head>
+
+<script>
+	
+  	window.singularCoreDb = {
+        apiKey: 'AIzaSyAio3OzdJyS0XSVm8_AiUqa7Ux5z716RrA',
+        authDomain: 'fiery-torch-2122.firebaseapp.com',
+        databaseURL: 'https://fiery-torch-2122.firebaseio.com',
+        databaseMirror: '',
+        storageBucket: 'fiery-torch-2122.appspot.com',
+        token: '',
+        projectId: 'fiery-torch-2122'
+      };
+  
+</script>
+
+
+
+<script>
+  window.singularStartupDb = '/accounts/68299/appinstances/3756026';
+  window.singularUrlBase = 'https://app.overlays.uno/';
+  window.singularAppInstanceOutputName = 'Output';
+  window.singularAppInstanceId = 3756026;
+  window.singularAppInstanceTemplateId = 518;
+  window.singularAppInstanceTemplateVersion = 24;
+  window.singularAppAccount = 68299;
+  window.onairMode = 'appinstance';  
+  window.multipleDBs = '0';
+  window.page = '';
+  window.rwms = false;
+  window.singularAdaptationGlobals = {};
+  window.singularAccountSubscriptionPlan = 'free';
+  window.singularBrand = 'uno';
+  window.singularAppInstanceDataStore = 'app_23ceTjNgVVaijTcaq9v0YS';
+  window.singularWindow = 'app_output'
+</script>
+
+<body id="onairBody" class="onair-body" style="overflow: hidden">
+  <div id="onairLive">
+  </div>
+</body>
+
+<script>
+
+  var _singularScene = {
+      bgcolor: '',
+      width: '',
+      height: '',
+      aspect: '',
+      graphicsDelay: '',
+      syncGraphics: '',
+      forceinteractivelayer: '1'
+    };
+
+  if (window.singularScene) {
+    window.singularScene = Object.assign(window.singularScene, _singularScene);
+  } else {
+    window.singularScene = _singularScene;
+  }
+  window.singularOwnerAccountId = '68299';
+
+  // removed this, because sometimes scrollbars would appear around the render window
+  // in case the width and height are fractions of pixels
+  // if (!window.flowOnairIndeed) {
+  //   var body = document.getElementById('onairBody');
+  //   body.style.overflow = 'auto';
+  // }
+
+  window.onresize = function (e) {
+    doResize();
+  }
+
+  doResize();
+
+  function doResize() {
+    var root = document.getElementById('onairLive');
+    var parentWidth = window.innerWidth;
+    var parentHeight = window.innerHeight;
+
+    root.style.position = 'relative';
+
+    if (window.singularScene.aspect == 'responsive') {
+      root.style.width = '100%';
+      root.style.height = '100%';
+    } else {
+
+      var w, h;
+
+      if (window.singularScene.width != '')
+        w = parseInt(window.singularScene.width);
+
+      if (window.singularScene.height != '')
+        h = parseInt(window.singularScene.height);
+
+      if (isNaN(h) && !isNaN(w)) {
+        h = w * 9 / 16;
+      }
+
+      if (isNaN(w) && !isNaN(h)) {
+        w = h * 16 / 9;
+      }
+
+      // if width and height are not defined and aspect is defined.
+      if (!w && !h && window.singularScene.aspect != '') {
+        var aspect = parseFloat(window.singularScene.aspect)
+
+        // to read format 16x9
+        if (window.singularScene.aspect.indexOf('x') != -1) {
+          var idx = window.singularScene.aspect.indexOf('x');
+          var aw = parseFloat(window.singularScene.aspect.substring(0, idx));
+          var ah = parseFloat(window.singularScene.aspect.substring(idx + 1));
+          aspect = aw / ah;
+        }
+
+        // to read format 16:9
+        if (window.singularScene.aspect.indexOf(':') != -1) {
+          var idx = window.singularScene.aspect.indexOf(':');
+          var aw = parseFloat(window.singularScene.aspect.substring(0, idx));
+          var ah = parseFloat(window.singularScene.aspect.substring(idx + 1));
+          aspect = aw / ah;
+        }
+
+        if (parentWidth / parentHeight > aspect) {
+          h = parentHeight;
+          w = parentHeight * aspect;
+        } else {
+          w = parentWidth;
+          h = parentWidth / aspect;
+        }
+
+        // make it center
+        // no need to make it center when width and height are fixed
+        // this is for aspect only
+        root.style.left = 'calc(50% - ' + (w / 2) + 'px)';
+        root.style.top = 'calc(50% - ' + (h / 2) + 'px)';
+      }
+
+      if (w && h) {
+        root.style.width = w + 'px';
+        root.style.height = h + 'px';
+      }
+    }
+  }
+
+</script>
+
+</html>
