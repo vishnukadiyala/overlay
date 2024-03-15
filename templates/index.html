@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>Sports Webpage Overlay</title>
+    <title>Overlay</title>
     <meta http-equiv="refresh" content="1">
     <style>
         /* Overlay styles */
@@ -21,16 +21,63 @@
 
         /* Content styles */
         .overlay-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            background-color: #5b79da;
+            padding: 5px;
+            border-radius: 2px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
         }
 
         .score-board {
             display: flex;
             justify-content: space-between;
+            align-items: bottom;
             
+        }
+
+        .score-board div{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid black;
+            
+        }
+
+        .score-board p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+            margin-right: auto;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .player-info p {
+            font-size: 18px;
+            margin: auto;
+        }
+
+        .bowler-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bowler-info p {
+            font-size: 18px;
+            margin: auto;
+        }
+
+        .target {
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            margin: auto;
         }
     </style>
 </head>
@@ -38,35 +85,25 @@
     <div class="overlay">
         <div class="overlay-content">
             <!-- Add your content here -->
-            <h1>Welcome to the Sports Webpage Overlay</h1>
+            <div class="score-board">
+                <div class="score">
+                    <p> {{score.Team}} : {{score.Score}}  <span style="font-size: 16px">{{score.Overs}}</span>   </p> 
+                </div>
+                <div class="player-info">
+                    <p>{{bat1.Name}} {{bat1.Runs}}({{bat1.Balls}})  </p>
+                </div>
+                <div class="player-info">
+                    <p>{{bat2.Name}} {{bat2.Runs}}({{bat2.Balls}})  </p>
+                </div>
+                <div class="bowler-info">
+                    <p>{{bowl1.Name}} {{bowl1.Overs}}-{{bowl1.Runs}}-{{bowl1.Wickets}}  </p>
+                </div>
+                <div class="target">
+                    <p>{{target}}</p>
+                </div>
+            </div>
+            
 
-            <p>This is the overlay content.</p>
-
-            <div id="score-board">
-                <p> {{score.Team}} </p>
-                <p> {{score.Score}} </p> 
-                <p> {{score.Overs}} </p> 
-            </div>
-            <div>
-                <p>{{bat1.Name}}</p>
-                <p>{{bat1.Runs}}</p>
-                <p>{{bat1.Balls}}</p>
-            </div>
-            <div>
-                <p>{{bat2.Name}}</p>
-                <p>{{bat2.Runs}}</p>
-                <p>{{bat2.Balls}}</p>
-            </div>
-
-            <div>
-                <p>{{bowl1.Name}}</p>
-                <p>{{bowl1.Overs}}</p>
-                <p>{{bowl1.Runs}}</p>
-                <p>{{bowl1.Wickets}}</p>
-            </div>  
-            <div>
-                <p>{{target}}</p>
-            </div>
         </div>
     </div>
 

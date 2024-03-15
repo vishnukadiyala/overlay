@@ -161,4 +161,3 @@ def index():
 if __name__ == '__main__':
     app.run()
     driver.quit() # Close the browser 
-
