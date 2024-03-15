@@ -14,14 +14,21 @@ import sys
 
 driver = webdriver.Chrome()
 target = 0
-# popped = False
+popped = False
 # CHANGE INPUTS HERE 
 url = "https://cricclubs.com/NormanCricketChampionship/viewScorecard.do?matchId=920&clubId=1005270"
-team_bat = "SS"
+team_bat = "CK"
 
 # Initialize the previous score
 previous_score = None
 current_score = None 
+
+# Default values for the score
+score = {'Team': 'Team 1', 'Score': '0/0', 'Overs': '0/20 ov'}
+bat1={'Name': 'Bat 1', 'Runs': '0', 'Balls': '0', 'Fours': '0', 'Sixes': '0', 'StrikeRate': '0'}
+bat2={'Name': 'Bat 2', 'Runs': '0', 'Balls': '0', 'Fours': '0', 'Sixes': '0', 'StrikeRate': '0'} 
+bowl1 = {'Name': 'Bowler', 'Overs': '0.0', 'Maidens': '0', 'Runs': '0', 'Wickets': '0', 'Economy': '0'} 
+target_pass = '-'
 
 # Initialize the Flask API 
 app = Flask(__name__)
@@ -30,6 +37,12 @@ def get_score(url, previous_score, team_bat, target=0):
         
         driver.get(url)
         # global popped
+        global score 
+        global bat1 
+        global bat2 
+        global bowl1
+        global popped
+
         try:
             # Wait for the dynamically loaded content to appear (if applicable)
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="mainDiv"]/div[1]/div[1]/div/div[1]/div/div/div/ul')))
@@ -123,17 +136,27 @@ def get_score(url, previous_score, team_bat, target=0):
 
 @app.route('/')
 def index():
+    global score, bat1, bat2, bowl1, target_pass 
+
+    print(score, bat1, bat2, bowl1)  
+
     try: 
-        score, bat1, bat2, bowl1, target_pass, current_score = get_score(url, previous_score, team_bat=team_bat, target=target)
-        return render_template('index.html', score = score, bat1 = bat1, bat2 = bat2, bowl1 = bowl1, target = target_pass) 
-    except:
         try:
-            element = driver.find_element(By.XPATH, '//*[@id="mainDiv"]/div[1]/div[1]/div/h3')
-            # result = get_score(url, previous_score, team_bat=team_bat, target=target)
-            return render_template('subindex.html', result = element.text)
-        
-        except: 
-            return render_template('error.html', result = "Match Not Started Yet")
+            score, bat1, bat2, bowl1, target_pass, current_score = get_score(url, previous_score, team_bat=team_bat, target=target)
+        except:
+            pass
+        return render_template('index.html', score = score, bat1 = bat1, bat2 = bat2, bowl1 = bowl1, target = target_pass) 
+    
+    
+    # except KeyboardInterrupt:
+    #     try:
+    #         element = driver.find_element(By.XPATH, '//*[@id="mainDiv"]/div[1]/div[1]/div/h3')
+    #         # result = get_score(url, previous_score, team_bat=team_bat, target=target)
+    #         print("Updated!")
+    #         return render_template('subindex.html', result = element.text)
+            
+    except: 
+        print("Error")
 
 if __name__ == '__main__':
     app.run()
