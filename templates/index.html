@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Sports Webpage Overlay</title>
+    <meta http-equiv="refresh" content="1">
     <style>
         /* Overlay styles */
         .overlay {
@@ -45,14 +47,33 @@
                 <p> {{score.Score}} </p> 
                 <p> {{score.Overs}} </p> 
             </div>
+            <div>
+                <p>{{bat1.Name}}</p>
+                <p>{{bat1.Runs}}</p>
+                <p>{{bat1.Balls}}</p>
+            </div>
+            <div>
+                <p>{{bat2.Name}}</p>
+                <p>{{bat2.Runs}}</p>
+                <p>{{bat2.Balls}}</p>
+            </div>
 
+            <div>
+                <p>{{bowl1.Name}}</p>
+                <p>{{bowl1.Overs}}</p>
+                <p>{{bowl1.Runs}}</p>
+                <p>{{bowl1.Wickets}}</p>
+            </div>  
+            <div>
+                <p>{{target}}</p>
+            </div>
         </div>
     </div>
 
     <!-- Add the rest of your webpage content here -->
 
     <script>
-        // JavaScript code can be added here if needed
+        setInterval(# , 1000);
     </script>
 </body>
 </html>
